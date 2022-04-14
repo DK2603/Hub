@@ -1,7 +1,4 @@
-const express = require('express');
-const router = express.Router();
 const Skus = require('../models/Skus.js');
-const app=express();
 
 //@desc     Get all Skus
 //@route    GET /api/v1/hospitals
