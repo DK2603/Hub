@@ -39,10 +39,48 @@ exports.getSkus= async (req,res,next)=>{
 //@desc     Create a sku
 //@route    POST /api/v1/skus
 //@access   Private
-exports.createSku= async (req,res,next)=>{
+exports.createSku = async (req,res,next)=>{
     console.log(req.body);
-    const sku = await Skus.create(req.body);
-    res.status(201).json({success:true, data: sku});
+    const skus = await Skus.create(req.body);
+    res.status(201).json({success:true, data: skus});
+};
+
+//@desc     Update single sku
+//@route    PUT /api/v1/skus/:id
+//@access   Private
+exports.updateSku= async (req,res,next)=>{
+    console.log(req.body);
+    try{
+        const skus = await Skus.findByIdAndUpdate(req.params.id, req.body,{
+            new: true,
+            runValidators:true
+    });
+        if(!skus){
+            return res.status(400).json({success:false});
+        }
+        res.status(200).json({success:true,data:skus});
+    }
+    catch(err){
+        res.status(400).json({success:false});
+    }
+};
+
+//@desc     Delete single sku
+//@route    DELETE /api/v1/skus/:id
+//@access   Private
+exports.deleteSku= async (req,res,next)=>{
+    console.log(req.body);
+    try{
+        const skus = await Skus.findById(req.params.id);
+        if(!skus){
+            return res.status(400).json({success:false});
+        }
+        Skus.remove();
+        res.status(200).json({success:true,data:{}});
+    }
+    catch(err){
+        res.status(400).json({success:false});
+    }
 };
 
 module.exports=exports;
