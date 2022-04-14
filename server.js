@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 //Route files
 const skus =require('./routes/skus');
+const user =require('./routes/user');
 
 //Load env vars
 dotenv.config({path:'./config/config.env'});
@@ -13,14 +14,15 @@ connectDB();
 
 const app=express();
 
+//Body parser
+app.use(express.json());
 //Mount routers
 app.use('/api/v1/skus', skus);
+app.use('/api/v1/user', user)
 
 const PORT=process.env.PORT || 5000;
 const server =  app.listen(PORT,console.log('Server running in', process.env.NODE_ENV,'mode on port', PORT));
 
-//Body parser
-app.use(express.json());
 
 //Handle unhandled promise rejections
 process.on('unhandledRejection',(err,promise)=>{
